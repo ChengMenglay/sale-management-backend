@@ -21,7 +21,7 @@ class ProductResource extends JsonResource
         'category_id'=>$this->category_id,
         'price' =>round($this->price, 2),
         'stock' => $this->stock,
-        'tax'=>$this->tax,
+        'tax'=>$this->tax,  
         'barcode'=>$this->barcode,
         'image' => $this->image,
         'status' => $this->status,

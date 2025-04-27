@@ -13,7 +13,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $query = Product::with("category")->orderBy('created_at',"desc");
+        $query = Product::with(relations: "category")->orderBy('created_at',"desc");
         if(request()->has("category")){
             $query->whereHas('category',function($q){
                 $q->where("name",request("category"));
@@ -62,7 +62,7 @@ class ProductController extends Controller
         $product = Product::find($id);
         if($product){
 
-            $product->fill(attributes: $request->validated());
+            $product->fill( $request->validated());
 
             $product->save();
 
