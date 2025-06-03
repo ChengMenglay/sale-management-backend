@@ -9,6 +9,11 @@ use App\Models\User;
 
 class OrderController extends Controller
 {
+    public function index(){
+        $orders= Order::orderBy('created_at',"desc")->get();
+
+        return OrderResource::collection($orders);
+    }
     public function store(StoreOrderRequest $request){
         $validated = $request->validated();
 
@@ -21,25 +26,16 @@ class OrderController extends Controller
                     'message' => 'User not found!'
                 ], 404);
             }
-
-            $total = $validated['total'];
-            $paid = $validated['amount_paid'];
-
-            if ($paid < $total) {
-                return response()->json([
-                    'message' => "Payment amount is less than the total order cost."
-                ], 400);
-            }
-
+            
             $order = Order::create([
                 'user_id' => $user->id,
                 'discount' => $validated['discount'] ?? 0,
                 'note' => $validated['note'] ?? "",
                 'payment_method' => $validated['payment_method'],
-                'payment_status' => 'Paid',
-                'order_status' => 'Completed',
-                'amount_paid' => $paid,
-                'total' => $total,
+                'payment_status' => $validated["payment_status"],
+                'order_status' => $validated["order_status"],
+                'amount_paid' => $validated['amount_paid'],
+                'total' =>  $validated['total'],
             ]);
 
             return response()->json([
@@ -54,4 +50,10 @@ class OrderController extends Controller
             ], 500);
         }
     }
+    public function destroy($id){
+        $order= Order::findOrFail($id);
+        $order->delete();
+        return response()->json(["message"=>"Order delete successfully!"],200);
+    }
+
 }

@@ -28,6 +28,7 @@ class OrderResource extends JsonResource
             'order_status' => $this->order_status,
             'amount_paid' => $this->amount_paid,
             'total' => $this->total,
+            'created_at'=>$this->created_at
         ];
     }
 }
