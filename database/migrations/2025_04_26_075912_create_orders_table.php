@@ -17,7 +17,7 @@ return new class extends Migration
             $table->decimal('discount', 8, 2)->default(0);
             $table->text('note')->nullable();
             $table->string('payment_method');
-            $table->string('payment_status')->default('Pending');
+            $table->enum('payment_status',['Pending','Paid'])->default("Pending");
             $table->string('order_status')->default('Pending');
             $table->decimal('amount_paid', 10, 2);
             $table->decimal('total', 10, 2);
