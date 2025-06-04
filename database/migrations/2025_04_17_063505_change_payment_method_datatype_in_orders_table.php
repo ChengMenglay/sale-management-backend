@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('order', function (Blueprint $table) {
-            $table->string('payment_method')->nullable()->change();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->string('payment_method',255)->nullable()->change();
         });
     }
 
@@ -21,8 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('order', function (Blueprint $table) {
-            $table->enum('payment_method',['Pending','Paid'])->default("Pending");
+        Schema::table('orders', function (Blueprint $table) {
+            // For PostgreSQL, use string with default instead of enum
+            $table->string('payment_method',255)->nullable(false)->default('Pending')->change();
         });
     }
 };
